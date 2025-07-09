@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=http://server:3000
+    networks:
+      - livestream-net
+
+  server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server/config:/app/config
+      - ./server/streams:/app/streams
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/livestream
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - mongo
+      - redis
+    networks:
+      - livestream-net
+
+  streaming:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.streaming
+    ports:
+      - "1935:1935"  # RTMP
+      - "8000:8000"  # HLS
+      - "8888:8888"  # WebRTC
+    volumes:
+      - ./streaming-server/config:/app/config
+      - ./streaming-server/streams:/tmp/streams
+    environment:
+      - NODE_ENV=production
+    networks:
+      - livestream-net
+
+  mongo:
+    image: mongo:5.0
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - livestream-net
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - livestream-net
+
+volumes:
+  mongodb_data:
+
+networks:
+  livestream-net:
+    driver: bridge

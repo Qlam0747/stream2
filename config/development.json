@@ -1,0 +1,28 @@
+{
+    "server": {
+      "port": 3000,
+      "jwtSecret": "dev-secret",
+      "jwtExpire": "30d"
+    },
+    "database": {
+      "mongoUri": "mongodb://localhost:27017/livestream-dev",
+      "redisUrl": "redis://localhost:6379"
+    },
+    "streaming": {
+      "rtmpUrl": "rtmp://localhost:1935/live",
+      "hlsBaseUrl": "http://localhost:8000/hls",
+      "webrtcSignalingUrl": "http://localhost:8888"
+    },
+    "cdn": {
+      "baseUrl": "http://localhost:9000",
+      "aws": {
+        "accessKeyId": "dev-access-key",
+        "secretAccessKey": "dev-secret-key",
+        "region": "us-east-1",
+        "bucket": "dev-livestream-bucket"
+      }
+    },
+    "logging": {
+      "level": "debug"
+    }
+  }

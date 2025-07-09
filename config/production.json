@@ -1,0 +1,35 @@
+{
+    "server": {
+      "port": 3000,
+      "jwtSecret": "production-secret-please-change",
+      "jwtExpire": "7d"
+    },
+    "database": {
+      "mongoUri": "mongodb://mongo:27017/livestream",
+      "redisUrl": "redis://redis:6379"
+    },
+    "streaming": {
+      "rtmpUrl": "rtmp://streaming:1935/live",
+      "hlsBaseUrl": "https://cdn.yourdomain.com/hls",
+      "webrtcSignalingUrl": "wss://streaming.yourdomain.com"
+    },
+    "cdn": {
+      "baseUrl": "https://cdn.yourdomain.com",
+      "aws": {
+        "accessKeyId": "${AWS_ACCESS_KEY_ID}",
+        "secretAccessKey": "${AWS_SECRET_ACCESS_KEY}",
+        "region": "us-east-1",
+        "bucket": "prod-livestream-bucket"
+      },
+      "cloudflare": {
+        "workerUrl": "https://stream.yourdomain.com"
+      }
+    },
+    "logging": {
+      "level": "info",
+      "file": {
+        "error": "/var/log/livestream/error.log",
+        "combined": "/var/log/livestream/combined.log"
+      }
+    }
+  }

@@ -1,0 +1,32 @@
+{
+    "server": {
+      "port": 3000,
+      "jwtSecret": "staging-secret-please-change",
+      "jwtExpire": "15d"
+    },
+    "database": {
+      "mongoUri": "mongodb://mongo:27017/livestream-staging",
+      "redisUrl": "redis://redis:6379"
+    },
+    "streaming": {
+      "rtmpUrl": "rtmp://streaming:1935/live",
+      "hlsBaseUrl": "https://staging-cdn.yourdomain.com/hls",
+      "webrtcSignalingUrl": "wss://staging-streaming.yourdomain.com"
+    },
+    "cdn": {
+      "baseUrl": "https://staging-cdn.yourdomain.com",
+      "aws": {
+        "accessKeyId": "${AWS_ACCESS_KEY_ID}",
+        "secretAccessKey": "${AWS_SECRET_ACCESS_KEY}",
+        "region": "us-east-1",
+        "bucket": "staging-livestream-bucket"
+      }
+    },
+    "logging": {
+      "level": "debug",
+      "file": {
+        "error": "/var/log/livestream-staging/error.log",
+        "combined": "/var/log/livestream-staging/combined.log"
+      }
+    }
+  }

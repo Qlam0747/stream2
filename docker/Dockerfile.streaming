@@ -1,0 +1,22 @@
+FROM node:16-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY streaming-server/package.json streaming-server/package-lock.json ./
+RUN npm ci --production
+
+# Copy app files
+COPY streaming-server/ ./
+
+# Install FFmpeg and Nginx for RTMP
+RUN apk add --no-cache ffmpeg nginx
+
+# Copy Nginx config
+COPY docker/nginx-rtmp.conf /etc/nginx/nginx.conf
+
+# Create necessary directories
+RUN mkdir -p /tmp/streams/hls /tmp/streams/dash
+
+EXPOSE 1935 8000 8888
+CMD ["sh", "-c", "nginx & node src/rtmpServer.js & node src/webrtcServer.js"]
